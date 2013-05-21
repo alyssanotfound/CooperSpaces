@@ -20,6 +20,7 @@
  
 #include <SD.h>
 
+File myFile0;
 File myFile;
 File myFile2;
 
@@ -45,6 +46,20 @@ void setup()
   }
   Serial.println("initialization done.");
   
+  myFile0 = SD.open("/lost.dir/spring.csv");
+  if (myFile0) {
+    Serial.println("spring 2013:");
+    int lines = 0;
+      while (myFile0.available()) {
+        char c = myFile0.read();
+          if ( c == '*') {
+            lines++;
+          }
+      }
+     Serial.println("there are this many lines: ");
+     Serial.println(lines);
+  }    
+     
   // open the file. note that only one file can be open at a time,
   // so you have to close this one before opening another.
   myFile = SD.open("test.txt", FILE_WRITE);
@@ -84,8 +99,12 @@ void setup()
     Serial.println("the real file:");
     
     // read from the file until there's nothing else in it:
-    while (myFile2.available()) {
-    	Serial.write(myFile2.read());
+    char inBuffer[128];
+    while (myFile2.available()) {  
+        myFile2.readBytesUntil('*', inBuffer, 200);
+        Serial.println(inBuffer);
+        Serial.println("finish");
+    	//Serial.write(myFile2.read());
     }
     // close the file:
     myFile2.close();
