@@ -72,16 +72,17 @@ void setup()
           Serial.println(file_contents);
           Serial.print(" is the content and there are this many characters: ");
           Serial.println(count);
-          char *token = strtok(file_contents, ",");
-          
-          while(token) 
+          char *token; 
+          token = strtok(file_contents, ",");
+         
+          while (token != NULL) 
           {
-          
-           token = strtok(NULL, ","); // Use NULL to keep parsing original data
            Serial.println(token);
-          
+           token = strtok(NULL, ","); // Use NULL to keep parsing original data
+
           }
           
+         
        }
       
     }
