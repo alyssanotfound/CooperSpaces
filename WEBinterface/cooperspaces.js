@@ -3,7 +3,8 @@ var init = function() {
 	
 	var elements = document.getElementsByClassName('layer');
 	var transparentbox = document.getElementById('transparentbox');
-  
+    //var transparentbox = document.body;
+
     for (var i = 0; i < elements.length; i++) {
 	    elements[i].addEventListener( 'click', function(){
 	    	
