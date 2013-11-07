@@ -1,3 +1,4 @@
+//right now LL1 is 10 and LL2 is 11 and brooks lab is room 800
 var buildingSnapshots = [
 	//building for one interval
 	[
@@ -10,12 +11,12 @@ var buildingSnapshots = [
 			},
 			room104: {
 				name:"104", 
-				occupied: true,
+				occupied: false,
 				occupancy:12 
 			},
 			room105: {
 				name:"105", 
-				occupied: true,
+				occupied: false,
 				occupancy:2
 			},
 			room106: {
@@ -78,6 +79,10 @@ var buildingSnapshots = [
 		}
 	]	
 ];
+
+var listOfRooms = [
+101, 104, 105, 106, 201, 202, 305, 416, 427, 502, 503, 504, 505, 506, 616, 717, 800, 801, 802, 803, 804, 806 
+]
 
 
 

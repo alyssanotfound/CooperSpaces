@@ -10,15 +10,19 @@
   z-index: -10;
 }*/
 
-
-
+.building {
+  margin-top: 50px;
+  transition: all 1s ease-in-out;
+}
 
 .container {
-  width: 730px;
-  height: 180px;
-  position: relative;
+  width: 365px;
+  height: 50px;
+  position: absolute;
   overflow: visible;
-  margin: -130px auto;
+  margin-left: -182px;
+  left: 50%;
+
   -webkit-perspective: 800px;
      -moz-perspective: 800px;
        -o-perspective: 800px;
@@ -26,44 +30,81 @@
 }
 
 .container-1 {
-	margin-top: 0px;
 	z-index: 100;
 }
 .container-2 {
 	z-index: 95;	
+  margin-top: 40px;
+  
 }
 .container-3 {
 	z-index: 90;
+  margin-top: 80px;
+ 
 }
 .container-4 {
 	z-index: 85;
+  margin-top: 120px;
+
 }
 .container-5 {
 	z-index: 80;
+  margin-top: 160px;
+
 }
 .container-6 {
 	z-index: 75;
+  margin-top: 200px;
+
 }
 .container-7 {
 	z-index: 70;
+  margin-top: 240px;
+
 }
 .container-8 {
 	z-index: 65;
+  margin-top: 280px;
+
 }
 .container-9 {
 	z-index: 60;
+  margin-top: 320px;
+
 }
 .container-10 {
 	z-index: 55;
+  margin-top: 360px;
+
 }
 .container-11 {
 	z-index: 50;
+  margin-top: 400px;
 } 
 
+.toggleMoveUp {
+  transform: translateY(-30px);
+  -webkit-transform: translateY(-30px);
+    -webkit-transition: -webkit-transform 1s;
+     -moz-transition: -moz-transform 1s;
+       -o-transition: -o-transform 1s;
+          transition: transform 1s;
+}
+
+.toggleMoveDown {
+  transform: translateY(30px);
+  -webkit-transform: translateY(30px);
+    -webkit-transition: -webkit-transform 1s;
+     -moz-transition: -moz-transform 1s;
+       -o-transition: -o-transform 1s;
+          transition: transform 1s;
+
+}
 
 .layer {
-  width: 730px;
-  height: 410px;
+
+  width: 365px;
+  height: 205px;
   position: absolute;
   margin: 0 auto;
   z-index: 1;
@@ -94,26 +135,28 @@
 
 
 .layer.flipped {
-  -webkit-transform: rotateX( 0deg );
-     -moz-transform: rotateX( 0deg );
-       -o-transform: rotateX( 0deg );
-          transform: rotateX( 0deg );
-  -webkit-transition: -webkit-transform 1s;
-     -moz-transition: -moz-transform 1s;
-       -o-transition: -o-transform 1s;
-          transition: transform 1s;
-  -webkit-transform-style: preserve-3d;
-     -moz-transform-style: preserve-3d;
-       -o-transform-style: preserve-3d;
-          transform-style: preserve-3d;
-    -webkit-box-shadow: 0 30px 30px -5px rgba(0,0,0,0);
-      -moz-box-shadow: 0 30px 30px -5px rgba(0,0,0,0);
-        box-shadow: 0 30px 30px -5px rgba(0,0,0,0);
+  transition-property: height, width;
+  transition-duration: 3s, 3s;
+  transition-delay: 1s, 1s;
+  width: 730px;
+  height: 410px;
   
-  /*-webkit-transform: scale(2, 2); */
+
+}
+
+.flippedBox {
+  position: absolute;
+  transition-property: left, margin-left, top, margin-top;
+  transition-duration: 3s, 3s, 3s, 3s;
+  transition-delay: 0s, 0s, 0s, 0s;
+  left: 50%;
+  margin-left: -375px;
+  top: 50%;
+  margin-top: -205px;
 }	
 
 .layer figure {
+
   display: block;
   height: 100%;
   width: 100%;
@@ -125,11 +168,16 @@
 }
 
 .transparentboxbehind {
+  position: absolute;
   width: 100%;
   height: 100%;
-  position: absolute;
+}
+
+.moveUp {
+  margin-top: -30px;
 
 }
+
 
 figure {
   background-size: 99%;
