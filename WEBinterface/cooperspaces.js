@@ -1,105 +1,147 @@
 
+var elements = new Array();
+var transparentbox;
 var turnonlist = new Array();
 
 //this function init gets called once the page loads
 var init = function() {
-	var elements = document.getElementsByClassName('layer');
-	var transparentbox = document.getElementById('transparentbox');
-	//set up an event listener for every div that a floor is in
-    
-    //put the time interval that you want to check 
-	checkstatus(0);
+	elements = document.getElementsByClassName('layer');
+	//console.log(elements.length);
+	//console.log(elements[0]);
+	transparentbox = document.getElementById('transparentbox'); 
+	checkstatus(1);
+	addEL(elements);
+	addBoxEL(transparentbox);
+}
 
-    for (var i = 0; i < elements.length; i++) {
+function addEL(elements) {
+	for (var i = 0; i < elements.length; i++) {
+		//console.log(elements.length);
+	    elements[i].addEventListener( 'click', function() {
+			console.log(this);
+			var currentLayer = this;
+			var currentFloor = this.childNodes[1].className;
+			currentFloor = currentFloor.toString();
+			
+			if (currentFloor.length == 3) {
+				currentFloor = Number(currentFloor[2]);	
+			} else if (currentFloor.length == 4) {
+				currentFloor = currentFloor.substr(2,3);
+				currentFloor = Number(currentFloor);
+			}
+			console.log(currentFloor);
+			FlipUpDown(currentLayer, currentFloor);
 
-	    elements[i].addEventListener( 'click', function(){
-	    	var moveUp = new Array();
-	    	var moveDown = new Array();
-	    	var currentFloor = this.childNodes[1].className;
-	    	currentFloor = currentFloor.toString();
-	    	//console.log(currentFloor.length);
-	    	if (currentFloor.length == 3) {
-	    		currentFloor = Number(currentFloor[2]);	
-	    	} else if (currentFloor.length == 4) {
-	    		currentFloor = currentFloor.substr(2,3);
-	    		currentFloor = Number(currentFloor);
-	    	}
-	    	
-	    	//finding the arrays of the floors that need to move up and that need to move down
-	    	if (currentFloor == 10) {
-	    		moveUp = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-	    		moveDown = [11];
-	    	} else if (currentFloor == 11) {
-	    		moveUp = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-	    	} else {
-	    		for (var j=(currentFloor + 1); j <= 9; j++){
-	    			moveUp.push(j);
-	    		}
-	    		for (var k=(currentFloor - 1); k > 0; k=k-1){
-	    			//console.log(k);
-	    			moveDown.push(k);
-	    		}
-	    		moveDown.push(10, 11);	
-	    	}
-
-	    	for (var l = 0; l < moveUp.length; l++) {
-	    		elements[l].parentNode.toggleClassName('toggleMoveUp');	
-	    	}
-
-	    	for (var m = 0; m < moveDown.length; m++) {
-	    		var floor = Number(findelementnumber(moveDown[m]));
-	    		console.log(floor);
-	    		elements[floor].parentNode.toggleClassName('toggleMoveDown');	
-	    	}
-
-	    	var state = this.hasClassName('flipped');
-	    	var stateofbehindbox = transparentbox.hasClassName('transparentboxbehind');
-		    
-		    turnoff();
-		    
-	    	if (stateofbehindbox == true ) {
-	    		//console.log( "the behind box is already open bc a neww floor was clicked from pov of other floor" );
-	    	} else if (stateofbehindbox == false ){
-	    		transparentbox.toggleClassName('transparentboxbehind');
-	    	}
-
-	    	if (state == true ) {
-	    		this.className.replace('flipped','');
-	    		this.parentNode.className.replace('flippedBox','');
-	    		//console.log("the floor is open and since it was clicked remove the class and it will go back down");
-	    		transparentbox.toggleClassName('transparentboxbehind');
-	    	} else if (state == false ){
-	    		this.toggleClassName('flipped');
-	    		this.parentNode.toggleClassName('flippedBox');
-	    		this.parentNode.style.zIndex = 10000; 
-	    		//console.log("this is the currently open floor: " + this.childNodes[1].className + " This is its z index: " + this.parentNode.style.zIndex);
-	    	}
-	    	
-	    	transparentbox.addEventListener( 'click', function(){
-	    		transparentbox.toggleClassName('transparentboxbehind');	
-	    		turnoff();
-	    		//console.log("the box was clicked");
-	    	}, false); 
-		    
-	  	}, false);	
-  	}
-
-  	transparentbox.addEventListener( 'click', function(){
-  		//console.log("the box was clicked but nothing should happen");
-	}, false);
-  	//reset all of the floors so that none are in the foreground
-	function turnoff(){
-		var z = 120;
-	    for (j = 0; j < elements.length; j++) {
-	    	
-	    	if (elements[j].hasClassName('flipped') == true) {
-	    		elements[j].toggleClassName('flipped');	
-	    		elements[j].parentNode.toggleClassName('flippedBox');
-	    	}
-	    	elements[j].parentNode.style.zIndex = z;
-	    	z = z - 10;	
-	    }		      
+		}, false);	
 	}
+}
+
+function FlipUpDown(currentLayer, currentFloor) {
+	var moveUp = new Array();
+	var moveDown = new Array();
+	var state = currentLayer.hasClassName('flipped');
+	var stateofbehindbox = transparentbox.hasClassName('transparentboxbehind');
+
+	turnoff();
+
+	//finding the arrays of the floors that need to move up and that need to move down
+	if (currentFloor == 10) {
+		moveUp = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+		moveDown = [11];
+	} else if (currentFloor == 11) {
+		moveUp = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+	} else {
+		for (var j=(currentFloor + 1); j <= 9; j++){
+			moveUp.push(j);
+		}
+		for (var k=(currentFloor - 1); k > 0; k=k-1){
+			//console.log(k);
+			moveDown.push(k);
+		}
+		moveDown.push(10, 11);	
+	}
+
+	MoveAway(moveUp, moveDown);
+
+	if (stateofbehindbox == true ) {
+		//console.log( "the behind box is already open bc a neww floor was clicked from pov of other floor" );
+	} else if (stateofbehindbox == false ){
+		transparentbox.toggleClassName('transparentboxbehind');
+	}
+	console.log("the state is : " + state);
+	if (state == true ) {
+		currentLayer.className.replace('flipped','');
+		currentLayer.toggleClassName('unflipped');
+		currentLayer.parentNode.className.replace('flippedBox','');
+		currentLayer.parentNode.toggleClassName('unflippedBox');
+		//console.log("the floor is open and since it was clicked remove the class and it will go back down");
+		transparentbox.toggleClassName('transparentboxbehind');
+		MoveTowards(moveUp, moveDown);
+		turnoff();
+	} else if (state == false ){
+		currentLayer.toggleClassName('flipped');
+		currentLayer.parentNode.toggleClassName('flippedBox');
+		//console.log("this is the currently open floor: " + this.childNodes[1].className + " This is its z index: " + this.parentNode.style.zIndex);
+	}
+
+	transparentbox.addEventListener( 'click', function(){
+		transparentbox.toggleClassName('transparentboxbehind');	
+		turnoff();
+		//console.log("the box was clicked");
+	}, false); 
+}
+
+function MoveAway(moveUp, moveDown) {
+	
+
+	for (var l = 0; l < moveUp.length; l++) {
+		elements[l].parentNode.toggleClassName('toggleMoveUp');	
+		console.log(l);
+	}
+
+	for (var m = 0; m < moveDown.length; m++) {
+		var floor = Number(findelementnumber(moveDown[m]));
+		
+		elements[floor].parentNode.toggleClassName('toggleMoveDown');	
+	}
+
+}
+
+function MoveTowards(moveUp, moveDown) {
+	for (var l = 0; l < moveDown.length; l++) {
+		//elements[l].parentNode.className.replace('toggleMoveDown','');
+		elements[l].parentNode.toggleClassName('toggleMoveUp');	
+	}
+	for (var m = 0; m <= moveUp.length; m++) {
+		var floor = Number(findelementnumber(moveUp[m]));
+		console.log(floor);
+		//elements[l].parentNode.className.replace('toggleMoveUp','');
+		elements[floor].parentNode.toggleClassName('toggleMoveDown');	
+	}
+}
+
+function addBoxEL(transparentbox) {
+		transparentbox.addEventListener( 'click', function(){
+			//console.log("the box was clicked but nothing should happen");
+	}, false);	
+}
+
+//reset all of the floors so that none are in the foreground
+function turnoff(){
+	var z = 120;
+    for (j = 0; j < elements.length; j++) {
+    	
+    	if (elements[j].hasClassName('flipped') == true) {
+    		elements[j].toggleClassName('flipped');	
+    		elements[j].parentNode.toggleClassName('flippedBox');
+    	}
+    	if (elements[j].hasClassName('unflipped') == true) {
+    		elements[j].toggleClassName('unflipped');	
+    		elements[j].parentNode.toggleClassName('unflippedBox');
+    	}
+    	elements[j].parentNode.style.zIndex = z;
+    	z = z - 10;	
+    }		      
 }
 
 function findelementnumber(i){
@@ -198,9 +240,11 @@ function checkstatus(t) {
 	updaterooms(turnonlist);
 }
 
-
-
 window.addEventListener('DOMContentLoaded', init, false);
+
+
+
+
 
 
 

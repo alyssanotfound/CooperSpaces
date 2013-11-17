@@ -76,6 +76,18 @@ var buildingSnapshots = [
 				occupied: false,
 				occupancy:12 
 			}
+		},
+		{
+			room416: {
+				name:"416", 
+				occupied: true,
+				occupancy:32
+			},
+			room427: {
+				name:"427", 
+				occupied: true,
+				occupancy:12 
+			}
 		}
 	]	
 ];

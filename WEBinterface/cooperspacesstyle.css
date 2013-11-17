@@ -13,6 +13,7 @@
 .building {
   margin-top: 50px;
   transition: all 1s ease-in-out;
+
 }
 
 .container {
@@ -22,7 +23,8 @@
   overflow: visible;
   margin-left: -182px;
   left: 50%;
-
+  
+  -webkit-transform-style: preserve-3d;
   -webkit-perspective: 800px;
      -moz-perspective: 800px;
        -o-perspective: 800px;
@@ -83,8 +85,8 @@
 } 
 
 .toggleMoveUp {
-  transform: translateY(-30px);
-  -webkit-transform: translateY(-30px);
+  transform: translateY(-40px);
+  -webkit-transform: translateY(-40px);
     -webkit-transition: -webkit-transform 1s;
      -moz-transition: -moz-transform 1s;
        -o-transition: -o-transform 1s;
@@ -92,8 +94,8 @@
 }
 
 .toggleMoveDown {
-  transform: translateY(30px);
-  -webkit-transform: translateY(30px);
+  transform: translateY(40px);
+  -webkit-transform: translateY(40px);
     -webkit-transition: -webkit-transform 1s;
      -moz-transition: -moz-transform 1s;
        -o-transition: -o-transform 1s;
@@ -133,27 +135,143 @@
 
 }
 
+.layer.unflipped {
+  -webkit-animation-name: flipdown;
+  -webkit-animation-duration: 2s;
+  -webkit-animation-timing-function: ease-in-out;
+  -webkit-animation-iteration-count: 1; 
+  -webkit-animation-direction: normal;
+  -webkit-animation-delay: 1s;
+  -webkit-animation-play-state: running;
+  -webkit-animation-fill-mode: forwards;
+}
 
-.layer.flipped {
-  transition-property: height, width;
-  transition-duration: 3s, 3s;
-  transition-delay: 1s, 1s;
-  width: 730px;
-  height: 410px;
-  
+@-webkit-keyframes flipdown {
+   0% {
+    width: 730px;
+    height: 410px;
+    transition-property: height, width;
+    animation-timing-function: linear;
+    -webkit-transform: rotateX( 0deg );
+    background-color: yellow;
+   }
+   
+   50% {
+    background-color: red;
+    -webkit-transform: rotateX( 75deg ) translateY(-50px);         
+   }
+
+   100% {
+   }
 
 }
 
+
+div.layer.flipped {
+  -webkit-animation-name: flip;
+  -webkit-animation-duration: 2s;
+  -webkit-animation-timing-function: ease-in-out;
+  -webkit-animation-iteration-count: 1; 
+  -webkit-animation-direction: normal;
+  -webkit-animation-delay: 1s;
+  -webkit-animation-play-state: running;
+  -webkit-animation-fill-mode: forwards;
+  
+}
+
+@-webkit-keyframes flip {
+   0% {
+    
+    -webkit-transform: rotateX( 75deg );
+   }
+   
+   50% {
+    -webkit-transform: rotateX( 75deg ) translateY(50px);         
+   }
+
+   100% {
+    width: 730px;
+    height: 410px;
+    transition-property: height, width;
+    animation-timing-function: linear;
+    -webkit-transform: rotateX( 0deg );
+   }
+
+}
+
+
+
 .flippedBox {
+  -webkit-animation-name: flippedBox;
+  -webkit-animation-duration: 2s;
+  -webkit-animation-timing-function: ease-in-out;
+  -webkit-animation-iteration-count: 1; 
+  -webkit-animation-direction: normal;
+  -webkit-animation-delay: 1s;
+  -webkit-animation-play-state: running;
+  -webkit-animation-fill-mode: forwards;
+  animation-timing-function: linear;
   position: absolute;
-  transition-property: left, margin-left, top, margin-top;
-  transition-duration: 3s, 3s, 3s, 3s;
-  transition-delay: 0s, 0s, 0s, 0s;
-  left: 50%;
-  margin-left: -375px;
-  top: 50%;
-  margin-top: -205px;
+  
 }	
+
+@-webkit-keyframes flippedBox {
+   0% {
+    animation-timing-function: ease;
+   }
+
+   50% {
+    transition-property: left, margin-left, margin-top, padding-top;
+    margin-top: -200px;
+    margin-left: -375px;
+    left: 50%;
+    padding-top: 25%;
+   }
+
+   100% {
+    z-index: 10000;
+    margin-top: -200px;
+    margin-left: -375px;
+    left: 50%;
+    padding-top: 25%;
+   
+   }
+
+}
+
+.unflippedBox {
+  -webkit-animation-name: unflippedBox;
+  -webkit-animation-duration: 2s;
+  -webkit-animation-timing-function: ease-in-out;
+  -webkit-animation-iteration-count: 1; 
+  -webkit-animation-direction: normal;
+  -webkit-animation-delay: 1s;
+  -webkit-animation-play-state: running;
+  -webkit-animation-fill-mode: forwards;
+  animation-timing-function: linear;
+  position: absolute;
+
+}
+
+@-webkit-keyframes unflippedBox {
+   0% {
+    z-index: 10000;
+    margin-top: -200px;
+    margin-left: -375px;
+    left: 50%;
+    padding-top: 25%;
+   }
+
+   50% {
+    
+   }
+
+   100% {
+    
+   
+   }
+
+}
 
 .layer figure {
 
@@ -188,6 +306,11 @@ figure {
 section, footer, nav {
   display: block;
 }
+
+
+
+
+
 
 
 
