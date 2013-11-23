@@ -1,15 +1,3 @@
-
-/* COOPER GOOGLE EARTH */
-/* 
-.cooper-google-earth {
-  position: absolute;
-  display: inline-block;
-  width: 100%;
-  height: 100%;
-  opacity: .1;
-  z-index: -10;
-}*/
-
 .building {
   margin-top: 50px;
   transition: all 1s ease-in-out;
@@ -29,6 +17,19 @@
      -moz-perspective: 800px;
        -o-perspective: 800px;
           perspective: 800px;
+  -webkit-transition: -webkit-transform 1s;
+    -moz-transition: -moz-transform 1s;
+      -o-transition: -o-transform 1s;
+        transition: transform 1s;
+  -webkit-animation-duration: 2s;
+  -webkit-animation-timing-function: ease-in-out;
+  -webkit-animation-iteration-count: 1; 
+  -webkit-animation-direction: normal;
+  -webkit-animation-delay: 1s;
+  -webkit-animation-play-state: running;
+  -webkit-animation-fill-mode: forwards;
+  animation-timing-function: linear;
+  position: absolute;
 }
 
 .container-1 {
@@ -87,20 +88,12 @@
 .toggleMoveUp {
   transform: translateY(-40px);
   -webkit-transform: translateY(-40px);
-    -webkit-transition: -webkit-transform 1s;
-     -moz-transition: -moz-transform 1s;
-       -o-transition: -o-transform 1s;
-          transition: transform 1s;
+
 }
 
 .toggleMoveDown {
   transform: translateY(40px);
   -webkit-transform: translateY(40px);
-    -webkit-transition: -webkit-transform 1s;
-     -moz-transition: -moz-transform 1s;
-       -o-transition: -o-transform 1s;
-          transition: transform 1s;
-
 }
 
 .layer {
@@ -133,10 +126,6 @@
       -moz-box-shadow: 0 30px 30px -5px rgba(0,0,0,0.3);
         box-shadow: 0 30px 30px -5px rgba(0,0,0,0.3);
 
-}
-
-.layer.unflipped {
-  -webkit-animation-name: flipdown;
   -webkit-animation-duration: 2s;
   -webkit-animation-timing-function: ease-in-out;
   -webkit-animation-iteration-count: 1; 
@@ -144,6 +133,12 @@
   -webkit-animation-delay: 1s;
   -webkit-animation-play-state: running;
   -webkit-animation-fill-mode: forwards;
+
+}
+
+.layer.unflipped {
+  -webkit-animation-name: flipdown;
+
 }
 
 @-webkit-keyframes flipdown {
@@ -153,30 +148,18 @@
     transition-property: height, width;
     animation-timing-function: linear;
     -webkit-transform: rotateX( 0deg );
-    background-color: yellow;
-   }
+/*    background-color: yellow;
+*/   }
    
    50% {
-    background-color: red;
     -webkit-transform: rotateX( 75deg ) translateY(-50px);         
    }
 
-   100% {
-   }
 
 }
 
-
-div.layer.flipped {
+.layer.flipped {
   -webkit-animation-name: flip;
-  -webkit-animation-duration: 2s;
-  -webkit-animation-timing-function: ease-in-out;
-  -webkit-animation-iteration-count: 1; 
-  -webkit-animation-direction: normal;
-  -webkit-animation-delay: 1s;
-  -webkit-animation-play-state: running;
-  -webkit-animation-fill-mode: forwards;
-  
 }
 
 @-webkit-keyframes flip {
@@ -203,15 +186,7 @@ div.layer.flipped {
 
 .flippedBox {
   -webkit-animation-name: flippedBox;
-  -webkit-animation-duration: 2s;
-  -webkit-animation-timing-function: ease-in-out;
-  -webkit-animation-iteration-count: 1; 
-  -webkit-animation-direction: normal;
-  -webkit-animation-delay: 1s;
-  -webkit-animation-play-state: running;
-  -webkit-animation-fill-mode: forwards;
-  animation-timing-function: linear;
-  position: absolute;
+
   
 }	
 
@@ -241,15 +216,7 @@ div.layer.flipped {
 
 .unflippedBox {
   -webkit-animation-name: unflippedBox;
-  -webkit-animation-duration: 2s;
-  -webkit-animation-timing-function: ease-in-out;
-  -webkit-animation-iteration-count: 1; 
-  -webkit-animation-direction: normal;
-  -webkit-animation-delay: 1s;
-  -webkit-animation-play-state: running;
-  -webkit-animation-fill-mode: forwards;
-  animation-timing-function: linear;
-  position: absolute;
+
 
 }
 
@@ -287,7 +254,8 @@ div.layer.flipped {
 
 .transparentboxbehind {
   position: absolute;
-  width: 100%;
+/*  background-color: pink;
+*/  width: 100%;
   height: 100%;
 }
 
