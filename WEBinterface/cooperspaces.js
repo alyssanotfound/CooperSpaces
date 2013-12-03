@@ -7,13 +7,13 @@ var turnonlist = new Array();
 var stateofbehindbox;
 var moveAbove = new Array();
 var moveBelow = new Array();
+var today = new Date();
 
 //this function init gets called once the page loads
 var init = function() {
 	elements = document.getElementsByClassName('layer');
 	transparentbox = document.getElementById('transparentbox'); 
 	stateofbehindbox = getstateofbehindbox();
-	//console.log( stateofbehindbox );
 	checkstatus(1);
 	addEL(elements);
 }
@@ -24,36 +24,41 @@ var getstateofbehindbox = function() {
 
 function addEL(elements) {
 	for (var i = 0; i < elements.length; i++) {
-	    elements[i].addEventListener( 'click', function() {
-	    	console.log ("--------------NEW THING CLICKED---------------")
-	    	//console.log("This should be blank if nothing is open or show the room if one is open: " + currentFloor);
-	    	if (currentLayer === this) {
-	    		//console.log("I just clicked the floor already open, thus, do nothing")
-	    		//do nothing, because you dont want to close out of the open floor if user clicks on it again
-	    	} else {
-	    		//if there is an open one, close it 
-	    		if (currentLayer != ""){
-	    			//console.log("There must be this one open already so now close it...." + currentFloor)
-	    			FlipDown(currentLayer, currentFloor);
-				} 
-				//console.log("...now open the new floor")
-				//if there isn't an open one, open new one
-				currentLayer = this;
-				currentFloor = this.childNodes[1].className;
-				currentFloor = currentFloor.toString();
-				console.log("the currentLayer floor is: " + currentFloor);
-				
-				if (currentFloor.length == 3) {
-					currentFloor = Number(currentFloor[2]);	
-				} else if (currentFloor.length == 4) {
-					currentFloor = currentFloor.substr(2,3);
-					currentFloor = Number(currentFloor);
-				}
-				console.log(currentFloor);
-				FlipUp(currentLayer, currentFloor);
-			}
-		}, false);	
+	    elements[i].addEventListener( 'click', addtheListeners , false);	
 	}
+    $( "#datepicker" ).datepicker();
+    $('#timepicker').timepicker();
+}
+
+function addtheListeners() {
+	console.log ("--------------NEW THING CLICKED---------------");
+	//console.log("This should be blank if nothing is open or show the room if one is open: " + currentFloor);
+	if (currentLayer === this) {
+		//console.log("I just clicked the floor already open, thus, do nothing")
+		//do nothing, because you dont want to close out of the open floor if user clicks on it again
+	} else {
+		//if there is an open one, close it 
+		if (currentLayer != ""){
+			//console.log("There must be this one open already so now close it...." + currentFloor)
+			FlipDown(currentLayer, currentFloor);
+		} 
+		//console.log("...now open the new floor")
+		//if there isn't an open one, open new one
+		currentLayer = this;
+		currentFloor = this.childNodes[1].className;
+		currentFloor = currentFloor.toString();
+		console.log("the currentLayer floor is: " + currentFloor);
+		
+		if (currentFloor.length == 3) {
+			currentFloor = Number(currentFloor[2]);	
+		} else if (currentFloor.length == 4) {
+			currentFloor = currentFloor.substr(2,3);
+			currentFloor = Number(currentFloor);
+		}
+		console.log(currentFloor);
+		FlipUp(currentLayer, currentFloor);
+	}
+
 }
 
 function defineMovingFloors(currentFloor){
@@ -107,8 +112,15 @@ function FlipUp(currentLayer, currentFloor) {
 		//trigger the open floor to go down if outside is clicked
 		console.log("CLICKED OUTSIDE BOX SO FLIP DOWN : " + currentLayer + currentFloor);
 		turnoff();
-		//FlipDown(currentLayer, currentFloor);
 	}, false); 
+	DeleteEventListeners();
+}
+
+function DeleteEventListeners() {
+	for (var i = 0; i < elements.length; i++) {
+		console.log("DELETE EVENT LISTENER");
+	    elements[i].removeEventListener('click',addtheListeners,false);	
+	}
 }
 
 //will collapse the open floor and reset everything
@@ -182,7 +194,7 @@ function turnoff(){
 	console.log("this is the state of the behind box: " + stateofbehindbox);
 	console.log("current layer : " + currentLayer);
 	console.log("current floor : " + currentFloor);
-
+	addEL(elements);
 }
 
 function findelementnumber(i){
@@ -210,7 +222,7 @@ function findelementnumber(i){
 		return 10;
 	}
 }
-
+///////////START FUNCTIONALITY FOR DISPLAYING ROOM DATA ////////////////////////////////////////////////
 //clears all of the background images on all of the floor divs except for the basic floor images
 function clearrooms() {
 	for (i=1; i<=11; i++) {
@@ -279,7 +291,142 @@ function checkstatus(t) {
 	updaterooms(turnonlist);
 }
 
+/////////// DATE PICKER WINDOW ////////////////////////////////////////////////
+
+function updatedisplaydate(truemeanscurrent) {
+	var date;
+	var time;
+	var wd = "";
+	var d;
+	var m;
+	var y;
+	if (truemeanscurrent === true){
+		var today = new Date();
+		wd = getWrittenDay(today.getDay());
+		var mm = today.getMonth();
+		mm = mm.toString();
+		m = getWrittenMonth(mm);
+		d = today.getUTCDate();
+		y = today.getFullYear();
+		time = $("#timepicker").val();
+	} else {
+		date = $("#datepicker").val();
+		time = $("#timepicker").val();
+		if (date == "" || time == "") {
+			alert("Please enter a date and a time");
+			return;
+		} else {
+			m = getWrittenMonth(date);
+			d = date[3];
+			d += date[4];
+			y = date[6];
+			y += date[7];
+			y += date[8];
+			y += date[9];
+		}
+	}
+	document.getElementById("displaydate").innerHTML = "Availability on ";
+	document.getElementById("displaydate").innerHTML += wd;
+	document.getElementById("displaydate").innerHTML += " ";
+	document.getElementById("displaydate").innerHTML += m;
+	document.getElementById("displaydate").innerHTML += " ";
+	document.getElementById("displaydate").innerHTML += d;
+	document.getElementById("displaydate").innerHTML += ", ";
+	document.getElementById("displaydate").innerHTML += y;
+	document.getElementById("displaydate").innerHTML += " at ";
+	document.getElementById("displaydate").innerHTML += time;
+}
+
+function getWrittenDay(rawdate) {
+	var d = rawdate;
+	//console.log(d);
+	var weekday=new Array(7);
+	weekday[0]="Sunday";
+	weekday[1]="Monday";
+	weekday[2]="Tuesday";
+	weekday[3]="Wednesday";
+	weekday[4]="Thursday";
+	weekday[5]="Friday";
+	weekday[6]="Saturday";
+	return weekday[d];
+}
+
+function getWrittenMonth(rawdate) {
+	var m = rawdate[0];
+	m += rawdate[1];
+	console.log(m);
+	var month=new Array();
+	month[1]="January";
+	month[2]="February";
+	month[3]="March";
+	month[4]="April";
+	month[5]="May";
+	month[6]="June";
+	month[7]="July";
+	month[8]="August";
+	month[9]="September";
+	month[10]="October";
+	month[11]="November";
+	month[12]="December";
+	return month[m];
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 window.addEventListener('DOMContentLoaded', init, false);
+var slider = $('#slideinwindow');
+var tab = $('#tabslider');
+tab.click( function(){
+	slider.toggleClass('slideout');	
+});
+var box = $('#timepicker');
+box.click( function(){ 
+	var nowbutton = $('.ui-datepicker-current');
+	var donebutton = $('.ui-datepicker-close');
+	nowbutton.hide();
+	nowbutton.click( function() { 
+			updatedisplaydate(true);
+	});
+	donebutton.click( function() { 
+			updatedisplaydate(false);
+	});
+});
+
 
 
 

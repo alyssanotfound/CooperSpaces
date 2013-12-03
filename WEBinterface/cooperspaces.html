@@ -1,15 +1,17 @@
 <html>
 <head>
 	<title>Cooper Spaces</title>
-	<link rel="stylesheet" type="text/css" href="cooperspacesstyle.css">
-	<script type="text/javascript" src="data.js"></script>
-	<script type="text/javascript" src="cooperspaces.js"></script>
-	<script src="utils.js"></script>
+	<link rel="stylesheet" href="jquery/themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="fontawesome/css/font-awesome.min.css">
+  	<link rel="stylesheet" type="text/css" href="cooperspacesstyle.css">
 </head>
 <body>
+	<section id="displaydate">
+	</section>
 	<section class="building">
 		<section id="transparentbox" class="">
 		</section>
+
 		<section class="container container-1">
 		    <div class="layer">
 		      <figure class="fl9" id="fl9" style="background-image: url(Images/floor9.png);"></figure>
@@ -66,5 +68,18 @@
 		    </div>
 		</section>
 	</section>
+	<section id="slideinwindow" class="slideout">
+		<div id="tabslider"></div>
+		<p><i class="fa fa-calendar"></i><input type="text" id="datepicker"></p>
+		<p><i class="fa fa-clock-o"></i><input type="text" id="timepicker"></p>
+	</section>
+
+
+<script src="jquery/jquery-1.9.1.js"></script>
+<script src="jquery/ui/jquery-ui.js"></script>
+<script src="jquery/timepickeraddon.js"></script>
+<script type="text/javascript" src="data.js"></script>
+<script type="text/javascript" src="cooperspaces.js"></script>
+<script src="utils.js"></script>
 </body>
 </html>

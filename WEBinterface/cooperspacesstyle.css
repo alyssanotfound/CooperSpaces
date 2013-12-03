@@ -1,3 +1,7 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
 .building {
   margin-top: 50px;
   transition: all 1s ease-in-out;
@@ -99,7 +103,7 @@
 .layer {
 
   width: 365px;
-  height: 205px;
+  height: 225px;
   position: absolute;
   margin: 0 auto;
   z-index: 1;
@@ -144,7 +148,7 @@
 @-webkit-keyframes flipdown {
    0% {
     width: 730px;
-    height: 410px;
+    height: 465px;
     transition-property: height, width;
     animation-timing-function: linear;
     -webkit-transform: rotateX( 0deg );
@@ -174,7 +178,8 @@
 
    100% {
     width: 730px;
-    height: 410px;
+    height: 465px;
+    z-index: 10000;
     transition-property: height, width;
     animation-timing-function: linear;
     -webkit-transform: rotateX( 0deg );
@@ -268,15 +273,57 @@
 figure {
   background-size: 99%;
   background-repeat: no-repeat;
-  margin: 0;
+  margin: auto 0;
 }
 
 section, footer, nav {
   display: block;
 }
 
+#slideinwindow {
+  
+  z-index: 1000;
+  position: absolute;
+  border: 2px solid #F9E0F3;
+  height: 95px;
+  width: 205px;
+  transition: all 0.5s ease-in-out;
+}
 
+#slideinwindow div {
+  background-color: #DB4DB8;
+  width: 25px;
+  height: 100%;
+  float: right;
+}
 
+.slideout {
+  margin-left:-190px;
+}
+
+section p {
+  padding-left: 20px;
+}
+
+#displaydate {
+  position: absolute;
+  margin-top: -40px;
+  width: 400px;
+  height: 30px;
+}
+
+/* css for timepicker */
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; }
+.ui-timepicker-div dl dt { float: left; clear:left; padding: 0 0 0 5px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 45%; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+
+.ui-timepicker-rtl{ direction: rtl; }
+.ui-timepicker-rtl dl { text-align: right; padding: 0 5px 0 0; }
+.ui-timepicker-rtl dl dt{ float: right; clear: right; }
+.ui-timepicker-rtl dl dd { margin: 0 45% 10px 10px; }
 
 
 
