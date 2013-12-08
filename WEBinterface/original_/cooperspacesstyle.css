@@ -1,0 +1,511 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+.building {
+  margin-top: 50px;
+  transition: all 1s ease-in-out;
+
+}
+
+.container {
+  width: 365px;
+  height: 50px;
+  position: absolute;
+  overflow: visible;
+  margin-left: -182px;
+  left: 50%;
+  
+  -webkit-transform-style: preserve-3d;
+  -webkit-perspective: 800px;
+     -moz-perspective: 800px;
+       -o-perspective: 800px;
+          perspective: 800px;
+  -webkit-transition: -webkit-transform 1s;
+    -moz-transition: -moz-transform 1s;
+      -o-transition: -o-transform 1s;
+        transition: transform 1s;
+  -webkit-animation-duration: 2s;
+  -webkit-animation-timing-function: ease-in-out;
+  -webkit-animation-iteration-count: 1; 
+  -webkit-animation-direction: normal;
+  -webkit-animation-delay: 1s;
+  -webkit-animation-play-state: running;
+  -webkit-animation-fill-mode: forwards;
+  animation-timing-function: linear;
+  position: absolute;
+}
+
+.container-1 {
+	z-index: 100;
+}
+.container-2 {
+	z-index: 95;	
+  margin-top: 40px;
+  
+}
+.container-3 {
+	z-index: 90;
+  margin-top: 80px;
+ 
+}
+.container-4 {
+	z-index: 85;
+  margin-top: 120px;
+
+}
+.container-5 {
+	z-index: 80;
+  margin-top: 160px;
+
+}
+.container-6 {
+	z-index: 75;
+  margin-top: 200px;
+
+}
+.container-7 {
+	z-index: 70;
+  margin-top: 240px;
+
+}
+.container-8 {
+	z-index: 65;
+  margin-top: 280px;
+
+}
+.container-9 {
+	z-index: 60;
+  margin-top: 320px;
+
+}
+.container-10 {
+	z-index: 55;
+  margin-top: 360px;
+
+}
+.container-11 {
+	z-index: 50;
+  margin-top: 400px;
+} 
+
+.toggleMoveUp {
+  transform: translateY(-40px);
+  -webkit-transform: translateY(-40px);
+
+}
+
+.toggleMoveDown {
+  transform: translateY(40px);
+  -webkit-transform: translateY(40px);
+}
+
+.layer {
+
+  width: 365px;
+  height: 225px;
+  position: absolute;
+  margin: 0 auto;
+  z-index: 1;
+  background: transparent;
+  opacity: 1;
+
+  -webkit-transition: -webkit-transform 1s;
+     -moz-transition: -moz-transform 1s;
+       -o-transition: -o-transform 1s;
+          transition: transform 1s;
+
+    -webkit-transform-style: preserve-3d;
+     -moz-transform-style: preserve-3d;
+       -o-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+
+    -webkit-transform: rotateX( 75deg );
+     -moz-transform: rotateX( 75deg );
+       -o-transform: rotateX( 75deg );
+          transform: rotateX( 75deg );
+
+
+  -webkit-box-shadow: 0 30px 30px -5px rgba(0,0,0,0.3);
+      -moz-box-shadow: 0 30px 30px -5px rgba(0,0,0,0.3);
+        box-shadow: 0 30px 30px -5px rgba(0,0,0,0.3);
+
+  -webkit-animation-duration: 2s;
+  -webkit-animation-timing-function: ease-in-out;
+  -webkit-animation-iteration-count: 1; 
+  -webkit-animation-direction: normal;
+  -webkit-animation-delay: 1s;
+  -webkit-animation-play-state: running;
+  -webkit-animation-fill-mode: forwards;
+
+}
+
+.layer.unflipped {
+  -webkit-animation-name: flipdown;
+
+}
+
+@-webkit-keyframes flipdown {
+   0% {
+    width: 730px;
+    height: 465px;
+    transition-property: height, width;
+    animation-timing-function: linear;
+    -webkit-transform: rotateX( 0deg );
+/*    background-color: yellow;
+*/   }
+   
+   50% {
+    -webkit-transform: rotateX( 75deg ) translateY(-50px);         
+   }
+
+
+}
+
+.layer.flipped {
+  -webkit-animation-name: flip;
+}
+
+@-webkit-keyframes flip {
+   0% {
+    
+    -webkit-transform: rotateX( 75deg );
+   }
+   
+   50% {
+    -webkit-transform: rotateX( 75deg ) translateY(50px);         
+   }
+
+   100% {
+    width: 730px;
+    height: 465px;
+    
+    transition-property: height, width;
+    animation-timing-function: linear;
+    -webkit-transform: rotateX( 0deg );
+   }
+
+}
+
+
+
+.flippedBox {
+  -webkit-animation-name: flippedBox;
+}	
+
+@-webkit-keyframes flippedBox {
+   0% {
+    animation-timing-function: ease;
+   }
+
+   50% {
+    transition-property: left, margin-left, margin-top, padding-top;
+    margin-top: -200px;
+    margin-left: -375px;
+    left: 50%;
+    padding-top: 25%;
+   }
+
+   100% {
+    z-index: 10000;
+    margin-top: -200px;
+    margin-left: -375px;
+    left: 50%;
+    padding-top: 25%;
+   
+   }
+
+}
+
+.unflippedBox {
+  -webkit-animation-name: unflippedBox;
+
+
+}
+
+@-webkit-keyframes unflippedBox {
+   0% {
+    z-index: 10000;
+    margin-top: -200px;
+    margin-left: -375px;
+    left: 50%;
+    padding-top: 25%;
+   }
+
+   50% {
+    
+   }
+
+   100% {
+    
+   
+   }
+
+}
+
+.layer figure {
+
+  display: block;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  -webkit-backface-visibility: hidden;
+     -moz-backface-visibility: hidden;
+       -o-backface-visibility: hidden;
+          backface-visibility: hidden;
+}
+
+.transparentboxbehind {
+  position: absolute;
+/*  background-color: pink;
+*/  width: 100%;
+  height: 100%;
+}
+
+.moveUp {
+  margin-top: -30px;
+
+}
+
+
+figure {
+  background-size: 99%;
+  background-repeat: no-repeat;
+  margin: auto 0;
+}
+
+section, footer, nav {
+  display: block;
+}
+
+#slideinwindow {
+  
+  z-index: 1000;
+  position: absolute;
+  border: 2px solid #F9E0F3;
+
+  height: 95px;
+  width: 205px;
+  transition: all 0.5s ease-in-out;
+}
+
+#slideinwindow div {
+  background-color: #DB4DB8;
+  width: 25px;
+  height: 100%;
+  float: right;
+}
+
+#tabslider p {
+  position: relative;
+  transform:rotate(-90deg);
+  -ms-transform:rotate(-90deg); /* IE 9 */
+  -webkit-transform:rotate(-90deg); /* Safari and Chrome */
+  margin-top: 76px;
+  color: white;
+}
+
+.slideout {
+  margin-left:-190px;
+}
+
+section p {
+  padding-left: 20px;
+}
+
+#displaydate {
+  position: absolute;
+  margin-top: -40px;
+  width: 400px;
+  height: 30px;
+}
+
+/* css for timepicker */
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; }
+.ui-timepicker-div dl dt { float: left; clear:left; padding: 0 0 0 5px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 45%; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+
+.ui-timepicker-rtl{ direction: rtl; }
+.ui-timepicker-rtl dl { text-align: right; padding: 0 5px 0 0; }
+.ui-timepicker-rtl dl dt{ float: right; clear: right; }
+.ui-timepicker-rtl dl dd { margin: 0 45% 10px 10px; }
+
+/* css for invisible divs over rooms on the open floor */
+
+#roomholder {
+  position:absolute;
+  z-index: 10000;
+  margin-top: -200px;
+  margin-left: -375px;
+  left: 50%;
+  padding-top: 25%;
+}
+
+.room {
+  position: absolute;
+  background-color: red;
+  opacity: 0.1;
+  display: inline-block;
+}
+
+.rm801 {
+  width: 85px;
+  height: 75px;
+  margin-top: 70px;
+  margin-left: 125px;
+}
+
+.rm802 {
+  width: 93px;
+  height: 75px;
+  margin-top: 70px;
+  margin-left: 260px;
+}
+
+.rm803 {
+  width: 110px;
+  height: 75px;
+  margin-top: 70px;
+  margin-left: 352px;
+}
+
+.rm804 {
+  width: 125px;
+  height: 75px;
+  margin-top: 70px;
+  margin-left: 462px;
+}
+
+.rm806 {
+  width: 125px;
+  height: 105px;
+  margin-top: 185px;
+  margin-left: 588px;
+}
+
+.brooks {
+  width: 125px;
+  height: 137px;
+  margin-top: 172px;
+  margin-left: 350px;
+}
+
+.rm717 {
+  width: 90px;
+  height: 55px;
+  margin-top: 310px;
+  margin-left: 340px;
+}
+
+.rm616 {
+  width: 90px;
+  height: 55px;
+  margin-top: 310px;
+  margin-left: 340px;
+}
+
+.rm502 {
+  width: 80px;
+  height: 135px;
+  margin-top: 10px;
+  margin-left: 142px;
+}
+
+.rm503 {
+  width: 123px;
+  height: 135px;
+  margin-top: 10px;
+  margin-left: 224px;
+}
+
+.rm504 {
+  width: 123px;
+  height: 135px;
+  margin-top: 10px;
+  margin-left: 347px;
+}
+
+.rm505 {
+  width: 120px;
+  height: 135px;
+  margin-top: 10px;
+  margin-left: 470px;
+}
+
+.rm506 {
+  width: 125px;
+  height: 135px;
+  margin-top: 10px;
+  margin-left: 593px;
+}
+
+.rm427 {
+  width: 85px;
+  height: 105px;
+  margin-top: 155px;
+  margin-left: 43px;
+}
+
+.rm416 {
+  width: 70px;
+  height: 45px;
+  margin-top: 280px;
+  margin-left: 350px;
+}
+
+.rm305 {
+  width: 120px;
+  height: 40px;
+  margin-top: 138px;
+  margin-left: 595px;
+}
+
+.rm201A {
+  width: 76px;
+  height: 70px;
+  margin-top: 60px;
+  margin-left: 90px;
+}
+
+.rm201 {
+  width: 76px;
+  height: 58px;
+  margin-top: 132px;
+  margin-left: 90px;
+}
+
+.rm101 {
+  width: 80px;
+  height: 135px;
+  margin-top: 62px;
+  margin-left: 60px;
+}
+
+.rm104 {
+  width: 105px;
+  height: 110px;
+  margin-top: 62px;
+  margin-left: 270px;
+}
+
+.rm105 {
+  width: 85px;
+  height: 110px;
+  margin-top: 62px;
+  margin-left: 375px;
+}
+
+.rm106 {
+  width: 60px;
+  height: 110px;
+  margin-top: 62px;
+  margin-left: 458px;
+}
+
+
+
+
+

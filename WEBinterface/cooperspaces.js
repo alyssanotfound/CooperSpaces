@@ -8,6 +8,8 @@ var stateofbehindbox;
 var moveAbove = new Array();
 var moveBelow = new Array();
 var today = new Date();
+var output = document.getElementById('roomholder');
+
 
 //this function init gets called once the page loads
 var init = function() {
@@ -16,6 +18,11 @@ var init = function() {
 	stateofbehindbox = getstateofbehindbox();
 	checkstatus(1);
 	addEL(elements);
+
+	// var roomtester = document.getElementById('roomtester');
+	// roomtester.addEventListener( 'click', function() {
+	// 	alert("hello work");
+	// } , false);
 }
 
 var getstateofbehindbox = function() {
@@ -28,6 +35,7 @@ function addEL(elements) {
 	}
     $( "#datepicker" ).datepicker();
     $('#timepicker').timepicker();
+
 }
 
 function addtheListeners() {
@@ -97,7 +105,7 @@ function MoveAway(moveAbove, moveBelow) {
 }
 
 function FlipUp(currentLayer, currentFloor) {
-	
+	console.log("current floor is " + currentFloor);
 	defineMovingFloors(currentFloor);
 	console.log("OPENING above: " + moveAbove);
 	console.log("below: " + moveBelow);
@@ -111,9 +119,14 @@ function FlipUp(currentLayer, currentFloor) {
 	transparentbox.addEventListener( 'click', function(){
 		//trigger the open floor to go down if outside is clicked
 		console.log("CLICKED OUTSIDE BOX SO FLIP DOWN : " + currentLayer + currentFloor);
-		turnoff();
+		FlipDown(currentLayer, currentFloor);
 	}, false); 
-	DeleteEventListeners();
+
+	currentLayer.addEventListener( 'webkitAnimationEnd', function() {
+	    DeleteEventListeners();
+		AddDivsForRoomEL(currentFloor);
+  	}, false);
+	
 }
 
 function DeleteEventListeners() {
@@ -123,10 +136,62 @@ function DeleteEventListeners() {
 	}
 }
 
+function AddDivsForRoomEL(currentFloor) {
+	var addELtotheserooms = "";
+	if (currentFloor === 9 || currentFloor === 10 || currentFloor === 11 ) {
+		//do nothing
+	} else if (currentFloor === 8) {
+		addELtotheserooms = ["rm801", "rm802", "rm803", "rm804", "rm806", "brooks"];
+	} else if (currentFloor === 7) {
+		addELtotheserooms = ["rm717"];
+	} else if (currentFloor === 6) {
+		addELtotheserooms = ["rm616"];
+	} else if (currentFloor === 5) {
+		addELtotheserooms = ["rm502", "rm503", "rm504", "rm505", "rm506"];
+	} else if (currentFloor === 4) {
+		addELtotheserooms = ["rm427", "rm416"];
+	} else if (currentFloor === 3) {
+		addELtotheserooms = ["rm305"];
+	} else if (currentFloor === 2) {
+		addELtotheserooms = ["rm201A", "rm201"];
+	} else if (currentFloor === 1) {
+		addELtotheserooms = ["rm101", "rm104", "rm105", "rm106"];
+	}
+	output.toggleClassName("moveforward");
+	for (i = 0; i < addELtotheserooms.length; i++) {
+		console.log(i);
+		console.log(addELtotheserooms[i]);
+		var add = addELtotheserooms[i];
+		var ele = document.createElement("div");
+        ele.setAttribute("class","room " + add);
+        output.appendChild(ele);
+	}
+	AddRoomELs();
+}
+
+function AddRoomELs(){
+	var rooms = document.getElementById('roomholder').children;
+	for (var i = 0; i < rooms.length; i++) {
+		console.log(rooms[i]);
+	    rooms[i].addEventListener( 'click', addtheRoomListeners , false);
+	    // rooms[i].style.background = "blue";
+	    
+	}
+}
+
+function addtheRoomListeners() {
+	// event.target.style.background = "yellow";
+	var roomclicked = event.target.className.split(" ")[1];
+	// alert("workingg " + event.target.className.split(" ")[1]);
+	roomclicked = roomclicked.substring(2,5);
+	console.log(roomclicked);
+	pushtofirebase(roomclicked);
+}
+
 //will collapse the open floor and reset everything
 function FlipDown(currentLayer, currentFloor) {
-	
 	//console.log("inside FlipDown " + currentLayer + currentFloor);
+
 	defineMovingFloors(currentFloor);
 	console.log ("CURRENT FLOOR FLIPS DOWN ")
 	currentLayer.className.replace('flipped','');
@@ -137,12 +202,11 @@ function FlipDown(currentLayer, currentFloor) {
 	transparentbox.toggleClassName('transparentboxbehind');
 	console.log("CLOSING above: " + moveAbove);
 	console.log("below: " + moveBelow);
-
 	MoveTowards(moveAbove, moveBelow);
 }
 
 function MoveTowards(moveAbove, moveBelow) {
-	console.log ("FLOORS MOVE TOWARDS")
+	console.log ("FLOORS MOVE TOWARDS");
 	for (var m = 0; m < moveAbove.length; m++) {
 		var floor = Number(findelementnumber(moveAbove[m]));
 		//console.log("move up " + floor);
@@ -159,6 +223,8 @@ function MoveTowards(moveAbove, moveBelow) {
 
 //reset all of the floors so that none are in the foreground though this is really just a safety
 function turnoff(){
+	output.removeClassName("moveforward");
+	RemoveRoomEventListeners();
 	console.log ("EVERYTHING IS RESET")
 	var z = 120;
     for (j = 0; j < elements.length; j++) {
@@ -197,6 +263,10 @@ function turnoff(){
 	addEL(elements);
 }
 
+function RemoveRoomEventListeners() {
+	while ( output.firstChild ) output.removeChild( output.firstChild );
+}
+
 function findelementnumber(i){
 	if (i == "9") {
 		return 0;
@@ -224,7 +294,7 @@ function findelementnumber(i){
 }
 ///////////START FUNCTIONALITY FOR DISPLAYING ROOM DATA ////////////////////////////////////////////////
 //clears all of the background images on all of the floor divs except for the basic floor images
-function clearrooms() {
+function clearrooms(turnonlist) {
 	for (i=1; i<=11; i++) {
 		var id = 'fl'+i;
 		id = id.toString();
@@ -261,6 +331,7 @@ function clearrooms() {
 
 //turn on only the rooms in the 'turn on list' to red
 function updaterooms(turnonlist) {	
+	//console.log(turnonlist);
 	for (i=0; i<turnonlist.length; i++) {
 		var id = "fl" + turnonlist[i].charAt(4);
 		id = id.toString();
@@ -287,15 +358,16 @@ function checkstatus(t) {
 	}
 	//these are the rooms in the current time interval that need to be turned on
 	//console.log(turnonlist);
-	clearrooms();
+	clearrooms(turnonlist);
 	updaterooms(turnonlist);
 }
 
 /////////// DATE PICKER WINDOW ////////////////////////////////////////////////
 
+var date;
+var time;
 function updatedisplaydate(truemeanscurrent) {
-	var date;
-	var time;
+	
 	var wd = "";
 	var d;
 	var m;
@@ -335,7 +407,38 @@ function updatedisplaydate(truemeanscurrent) {
 	document.getElementById("displaydate").innerHTML += y;
 	document.getElementById("displaydate").innerHTML += " at ";
 	document.getElementById("displaydate").innerHTML += time;
+	date = date.replace(/\//g, "");
+	console.log("look this up in fb " + date + time);
+	checkroomsinfb(date, time);
 }
+
+function checkroomsinfb(date, time) {
+	var roomstogoon = Array();
+	console.log('https://cooper-spaces.firebaseio.com/waitinglist/' + date + '/' + time);
+	var waitinglistRef = new Firebase('https://cooper-spaces.firebaseio.com/waitinglist/' + date + '/' + time );
+	waitinglistRef.on('value', function(roomsnapshot) {
+  		roomstogoon = [];
+  		roomsnapshot.forEach(
+            function(uniqueid) {
+                uniqueid.forEach(
+                	function(roomsdata) {
+                		var roomName = roomsdata.val();
+                		var roomName = roomName.toString();
+                		//change this to find value of room key but for now since there are only two keys it is doing this
+                		if (roomName != 'true') {
+                			roomstogoon.push('room' + roomName); 
+                		}
+                	}
+                );
+            }
+        );
+        console.log(roomstogoon);
+        clearrooms(roomstogoon);
+        updaterooms(roomstogoon);
+	});
+	
+}
+
 
 function getWrittenDay(rawdate) {
 	var d = rawdate;
@@ -371,10 +474,34 @@ function getWrittenMonth(rawdate) {
 	return month[m];
 }
 
+var slider = $('#slideinwindow');
+var tab = $('#tabslider');
+tab.click( function(){
+	console.log("working");
+	slider.toggleClass('slideout');	
+});
+var box = $('#timepicker');
+box.click( function(){ 
+	var nowbutton = $('.ui-datepicker-current');
+	var donebutton = $('.ui-datepicker-close');
+	nowbutton.hide();
+	donebutton.hide();
+});
+var submitbutton = $('#submitdate');
+submitbutton.click( function() { 
+	updatedisplaydate(false);
+});
 
+/////////// FIREBASE STUFF ////////////////////////////////////////////////
+function pushtofirebase(roomtopush) {
+date = date.replace(/\//g, "");
+console.log(date);
+var waitinglistRef = new Firebase('https://cooper-spaces.firebaseio.com/waitinglist/' + date + '/' + time );
+var pushRooms = waitinglistRef.push();
+var bookroom = $('#bookroom');
+pushRooms.set({'room': roomtopush , 'occupied': "true"});
 
-
-
+}
 
 
 
@@ -409,23 +536,8 @@ function getWrittenMonth(rawdate) {
 
 
 window.addEventListener('DOMContentLoaded', init, false);
-var slider = $('#slideinwindow');
-var tab = $('#tabslider');
-tab.click( function(){
-	slider.toggleClass('slideout');	
-});
-var box = $('#timepicker');
-box.click( function(){ 
-	var nowbutton = $('.ui-datepicker-current');
-	var donebutton = $('.ui-datepicker-close');
-	nowbutton.hide();
-	nowbutton.click( function() { 
-			updatedisplaydate(true);
-	});
-	donebutton.click( function() { 
-			updatedisplaydate(false);
-	});
-});
+
+
 
 
 

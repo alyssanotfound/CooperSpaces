@@ -3,12 +3,13 @@ body {
 }
 
 .building {
-  margin-top: 50px;
+  /*margin-top: 50px;*/
   transition: all 1s ease-in-out;
 
 }
 
 .container {
+  position: absolute;
   width: 365px;
   height: 50px;
   position: absolute;
@@ -17,10 +18,11 @@ body {
   left: 50%;
   
   -webkit-transform-style: preserve-3d;
-  -webkit-perspective: 800px;
-     -moz-perspective: 800px;
-       -o-perspective: 800px;
-          perspective: 800px;
+  -webkit-transform-style: preserve-3d;
+  -webkit-perspective: 1000px;
+     -moz-perspective: 1000px;
+       -o-perspective: 1000px;
+          perspective: 1000px;
   -webkit-transition: -webkit-transform 1s;
     -moz-transition: -moz-transform 1s;
       -o-transition: -o-transform 1s;
@@ -33,7 +35,8 @@ body {
   -webkit-animation-play-state: running;
   -webkit-animation-fill-mode: forwards;
   animation-timing-function: linear;
-  position: absolute;
+  
+
 }
 
 .container-1 {
@@ -90,14 +93,18 @@ body {
 } 
 
 .toggleMoveUp {
-  transform: translateY(-40px);
-  -webkit-transform: translateY(-40px);
+  transform: (-50.0001px);
+  -webkit-transform: translateY(-50.0001px);
+  -moz-transform: translateY(-50.0001px);
+
 
 }
 
 .toggleMoveDown {
-  transform: translateY(40px);
-  -webkit-transform: translateY(40px);
+  transform: translateY(50.0001px);
+  -webkit-transform: translateY(50.0001px);
+  -moz-transform: translateY(50.0001px);
+
 }
 
 .layer {
@@ -108,7 +115,6 @@ body {
   margin: 0 auto;
   z-index: 1;
   background: transparent;
-  opacity: 1;
 
   -webkit-transition: -webkit-transform 1s;
      -moz-transition: -moz-transform 1s;
@@ -120,10 +126,11 @@ body {
        -o-transform-style: preserve-3d;
           transform-style: preserve-3d;
 
-    -webkit-transform: rotateX( 75deg );
-     -moz-transform: rotateX( 75deg );
-       -o-transform: rotateX( 75deg );
-          transform: rotateX( 75deg );
+    -webkit-transform: rotateX( 75.0001deg );
+     -moz-transform: rotateX( 75.0001deg );
+       -o-transform: rotateX( 75.0001deg );
+          transform: rotateX( 75.0001deg );
+
 
 
   -webkit-box-shadow: 0 30px 30px -5px rgba(0,0,0,0.3);
@@ -142,6 +149,7 @@ body {
 
 .layer.unflipped {
   -webkit-animation-name: flipdown;
+  -moz-animation-name: flipdown;
 
 }
 
@@ -152,11 +160,18 @@ body {
     transition-property: height, width;
     animation-timing-function: linear;
     -webkit-transform: rotateX( 0deg );
+    -moz-transform: rotateX( 0deg );
 /*    background-color: yellow;
 */   }
    
    50% {
-    -webkit-transform: rotateX( 75deg ) translateY(-50px);         
+    -webkit-transform: rotateX( 75.0001deg ) translateY(-50.0001px);
+    -moz-transform: rotateX( 75.0001deg ) translateY(-50.0001px);         
+   }
+
+   100% {
+    -webkit-transform: rotateX( 75.0001deg ) translateY(-50.0001px);
+    -moz-transform: rotateX( 75.0001deg ) translateY(-50.0001px);         
    }
 
 
@@ -164,25 +179,30 @@ body {
 
 .layer.flipped {
   -webkit-animation-name: flip;
+  -moz-animation-name: flip;
 }
 
 @-webkit-keyframes flip {
    0% {
     
     -webkit-transform: rotateX( 75deg );
+    -moz-transform: rotateX( 75deg );
    }
    
    50% {
-    -webkit-transform: rotateX( 75deg ) translateY(50px);         
+    -webkit-transform: rotateX( 75deg ) translateY(50px);
+    -moz-transform: rotateX( 75deg ) translateY(50px);         
    }
 
    100% {
     width: 730px;
     height: 465px;
-    z-index: 10000;
+    
     transition-property: height, width;
     animation-timing-function: linear;
     -webkit-transform: rotateX( 0deg );
+    -moz-transform: rotateX( 0deg );
+    
    }
 
 }
@@ -191,8 +211,7 @@ body {
 
 .flippedBox {
   -webkit-animation-name: flippedBox;
-
-  
+  -moz-animation-name: flippedBox;
 }	
 
 @-webkit-keyframes flippedBox {
@@ -201,28 +220,29 @@ body {
    }
 
    50% {
-    transition-property: left, margin-left, margin-top, padding-top;
-    margin-top: -200px;
+    transition-property: left, margin-left, margin-top, top;
+    /*margin-top: -200px;*/
     margin-left: -375px;
     left: 50%;
-    padding-top: 25%;
+    margin-top: -232.5px;
+    top:50%;
    }
 
    100% {
     z-index: 10000;
-    margin-top: -200px;
+    margin-top: -232.5px;
+    top:50%;
     margin-left: -375px;
     left: 50%;
-    padding-top: 25%;
-   
+    /*padding-top: 25%;*/
+
    }
 
 }
 
 .unflippedBox {
   -webkit-animation-name: unflippedBox;
-
-
+  -moz-animation-name: unflippedBox;
 }
 
 @-webkit-keyframes unflippedBox {
@@ -231,7 +251,7 @@ body {
     margin-top: -200px;
     margin-left: -375px;
     left: 50%;
-    padding-top: 25%;
+ /*   padding-top: 25%;*/
    }
 
    50% {
@@ -281,11 +301,11 @@ section, footer, nav {
 }
 
 #slideinwindow {
-  
-  z-index: 1000;
+  z-index: 10000;
   position: absolute;
   border: 2px solid #F9E0F3;
-  height: 95px;
+  margin-top:50px;
+  height: 125px;
   width: 205px;
   transition: all 0.5s ease-in-out;
 }
@@ -295,6 +315,20 @@ section, footer, nav {
   width: 25px;
   height: 100%;
   float: right;
+}
+
+#slideinwindow button {
+  float: left;
+}
+
+#tabslider p {
+  position: relative;
+  transform:rotate(-90.0001deg);
+  -ms-transform:rotate(-90.0001deg); /* IE 9 */
+  -moz-transform:rotate(-90.0001deg);
+  -webkit-transform:rotate(-90.0001deg); /* Safari and Chrome */
+  margin-top: 90px;
+  color: white;
 }
 
 .slideout {
@@ -307,7 +341,6 @@ section p {
 
 #displaydate {
   position: absolute;
-  margin-top: -40px;
   width: 400px;
   height: 30px;
 }
@@ -324,6 +357,200 @@ section p {
 .ui-timepicker-rtl dl { text-align: right; padding: 0 5px 0 0; }
 .ui-timepicker-rtl dl dt{ float: right; clear: right; }
 .ui-timepicker-rtl dl dd { margin: 0 45% 10px 10px; }
+
+/* css for invisible divs over rooms on the open floor */
+
+#roomholder {
+  position:absolute;
+  margin-top: -232.5px;
+  margin-left: -375px;
+  left: 50%;
+  top:50%;
+  /*padding-top: 25%;*/
+  width: 730px;
+  height:465px;
+  -webkit-perspective: 1000px;
+     -moz-perspective: 1000px;
+       -o-perspective: 1000px;
+          perspective: 1000px;
+  -webkit-transition: -webkit-transform 1s;
+ -moz-transition: -moz-transform 1s;
+   -o-transition: -o-transform 1s;
+      transition: transform 1s;
+
+  -webkit-transform-style: preserve-3d;
+   -moz-transform-style: preserve-3d;
+     -o-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+}
+
+.moveforward {
+   z-index: 10000;
+}
+
+.room {
+  position: fixed;
+  -webkit-transform: scale3d(50,50,50);
+  -webkit-transform: translateZ(50px);
+  /*background-color: red;
+  opacity: 0.1;*/
+  display: inline-block;
+}
+
+.rm801 {
+  width: 85px;
+  height: 75px;
+  margin-top: 70px;
+  margin-left: 125px;
+}
+
+.rm802 {
+  width: 93px;
+  height: 75px;
+  top: 70px;
+  left: 260px;
+  position: absolute;
+}
+
+.rm803 {
+  width: 110px;
+  height: 75px;
+  margin-top: 70px;
+  margin-left: 352px;
+}
+
+.rm804 {
+  width: 125px;
+  height: 75px;
+  margin-top: 70px;
+  margin-left: 462px;
+}
+
+.rm806 {
+  width: 125px;
+  height: 105px;
+  margin-top: 185px;
+  margin-left: 588px;
+}
+
+.brooks {
+  width: 125px;
+  height: 137px;
+  margin-top: 172px;
+  margin-left: 350px;
+}
+
+.rm717 {
+  width: 90px;
+  height: 55px;
+  margin-top: 310px;
+  margin-left: 340px;
+}
+
+.rm616 {
+  width: 90px;
+  height: 55px;
+  margin-top: 310px;
+  margin-left: 340px;
+}
+
+.rm502 {
+  width: 80px;
+  height: 135px;
+  margin-top: 10px;
+  margin-left: 142px;
+}
+
+.rm503 {
+  width: 123px;
+  height: 135px;
+  margin-top: 10px;
+  margin-left: 224px;
+}
+
+.rm504 {
+  width: 123px;
+  height: 135px;
+  margin-top: 10px;
+  margin-left: 347px;
+}
+
+.rm505 {
+  width: 120px;
+  height: 135px;
+  margin-top: 10px;
+  margin-left: 470px;
+}
+
+.rm506 {
+  width: 125px;
+  height: 135px;
+  margin-top: 10px;
+  margin-left: 593px;
+}
+
+.rm427 {
+  width: 85px;
+  height: 105px;
+  margin-top: 155px;
+  margin-left: 43px;
+}
+
+.rm416 {
+  width: 70px;
+  height: 45px;
+  margin-top: 280px;
+  margin-left: 350px;
+}
+
+.rm305 {
+  width: 120px;
+  height: 40px;
+  margin-top: 138px;
+  margin-left: 595px;
+}
+
+.rm201A {
+  width: 76px;
+  height: 70px;
+  margin-top: 60px;
+  margin-left: 90px;
+}
+
+.rm201 {
+  width: 76px;
+  height: 58px;
+  margin-top: 132px;
+  margin-left: 90px;
+}
+
+.rm101 {
+  width: 80px;
+  height: 135px;
+  margin-top: 62px;
+  margin-left: 60px;
+}
+
+.rm104 {
+  width: 105px;
+  height: 110px;
+  margin-top: 62px;
+  margin-left: 270px;
+}
+
+.rm105 {
+  width: 85px;
+  height: 110px;
+  margin-top: 62px;
+  margin-left: 375px;
+}
+
+.rm106 {
+  width: 60px;
+  height: 110px;
+  margin-top: 62px;
+  margin-left: 458px;
+}
 
 
 
