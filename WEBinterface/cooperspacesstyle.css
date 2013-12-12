@@ -2,6 +2,7 @@ body {
   font-family: Arial, sans-serif;
   font-weight:100;
   letter-spacing:1.9px;
+  background-image:url('Images/bknd2.png');
 }
 
 #displaydate {
@@ -152,19 +153,6 @@ body {
   filter: url(#drop-shadow);
   -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=12, OffY=12, Color='#444')";
   filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=12, OffY=12, Color='#444')";
-
-}
-
-
-#fl9 {
-/*clip-path: url(#clipping);*/
-/*  -webkit-box-shadow: 0 30px 30px -5px rgba(0,0,0,0.3);
-      -moz-box-shadow: 0 30px 30px -5px rgba(0,0,0,0.3);
-        box-shadow: 0 30px 30px -5px rgba(0,0,0,0.3);
-*/
-}
-
-.shadowed {
 
 }
 
