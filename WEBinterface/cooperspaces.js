@@ -16,7 +16,8 @@ var init = function() {
 	elements = document.getElementsByClassName('layer');
 	transparentbox = document.getElementById('transparentbox'); 
 	stateofbehindbox = getstateofbehindbox();
-	checkstatus(1);
+	//checkstatus(1);
+	displaydefaulttoday();
 	addEL(elements);
 
 	// var roomtester = document.getElementById('roomtester');
@@ -174,7 +175,7 @@ function AddRoomELs(){
 	for (var i = 0; i < rooms.length; i++) {
 		console.log(rooms[i]);
 	    rooms[i].addEventListener( 'click', addtheRoomListeners , false);
-	    // rooms[i].style.background = "blue";
+	     // rooms[i].style.background = "blue";
 	    
 	}
 }
@@ -184,8 +185,54 @@ function addtheRoomListeners() {
 	var roomclicked = event.target.className.split(" ")[1];
 	// alert("workingg " + event.target.className.split(" ")[1]);
 	roomclicked = roomclicked.substring(2,5);
-	console.log(roomclicked);
-	pushtofirebase(roomclicked);
+	var match = checkifroomisredinfb(date, time, roomclicked);
+	console.log(match);
+	if (match === true ) {
+		alert("This room is already taken.");
+	} else {
+		console.log(roomclicked);
+		if(date == null || time == null) {
+			alert("Please pick a date and a time if you would like to reserve a room.");
+			return;
+		}
+	    var popup = document.getElementById("popupbox");
+	    if ( popup != null ) {
+	    	popup.remove();
+	    }
+	    var coords = getCoords(event);
+	    console.log("coords " + coords);
+		var ele = document.createElement("div");
+	    ele.setAttribute("id","popupbox");
+	    ele.setAttribute("class", "greybutton");
+	    ele.setAttribute("style", "margin-left:" + coords[0] + "px; margin-top:" + coords[1] + "px");
+	    event.target.parentNode.appendChild(ele);
+		document.getElementById("popupbox").innerHTML = "To send an immediate request for room " + roomclicked + " please enter your email address. <br><br> <input type = 'text' id='email'/><button type='button' id='submitemail' >Done</button>";
+		var emailbutton = $('#submitemail');
+		emailbutton.click( function() { 
+			var email = $("#email").val();
+			console.log(email);
+			pushtofirebase(roomclicked, email);
+			ele.remove();
+		});	
+	}
+}
+
+function getCoords(e) {
+
+	var x;
+	var y;
+	if (e.pageX || e.pageY) { 
+	  x = e.pageX;
+	  y = e.pageY;
+	}
+	else { 
+	  x = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft; 
+	  y = e.clientY + document.body.scrollTop + document.documentElement.scrollTop; 
+	} 
+	x -= output.offsetLeft + 150;
+	y -= output.offsetTop - 15;
+	var coords = [x, y];
+	return coords;
 }
 
 //will collapse the open floor and reset everything
@@ -366,6 +413,24 @@ function checkstatus(t) {
 
 var date;
 var time;
+
+function displaydefaulttoday() {
+	var today = new Date();
+	var todaysdate = (today.getMonth() + 1) + '/' + checkforzeros(today.getDate()) + '/' +  today.getFullYear();
+	var todaystime = checkforzeros(today.getHours()) + ':' + checkforzeros(today.getMinutes()) ;
+	document.getElementById("datepicker").defaultValue = todaysdate;
+	// document.getElementById("timepicker").defaultValue = todaystime;
+	checkroomsinfb(todaysdate, todaystime);
+}
+
+function checkforzeros(input) {
+	input = input.toString();
+	if (input.length == 1 ){
+		input = "0" + input;
+	} else {}
+	return input;
+}
+
 function updatedisplaydate(truemeanscurrent) {
 	
 	var wd = "";
@@ -385,7 +450,7 @@ function updatedisplaydate(truemeanscurrent) {
 		date = $("#datepicker").val();
 		time = $("#timepicker").val();
 		if (date == "" || time == "") {
-			alert("Please enter a date and a time");
+			alert("Please pick a date and a time.");
 			return;
 		} else {
 			m = getWrittenMonth(date);
@@ -395,6 +460,11 @@ function updatedisplaydate(truemeanscurrent) {
 			y += date[7];
 			y += date[8];
 			y += date[9];
+			var t = date.split("/");
+			if(t[2]) {
+			    myDate = new Date(t[2], t[0] - 1, t[1]);
+			    wd = getWrittenDay(myDate.getDay());
+			} 
 		}
 	}
 	document.getElementById("displaydate").innerHTML = "Availability on ";
@@ -412,33 +482,26 @@ function updatedisplaydate(truemeanscurrent) {
 	checkroomsinfb(date, time);
 }
 
-function checkroomsinfb(date, time) {
-	var roomstogoon = Array();
-	console.log('https://cooper-spaces.firebaseio.com/waitinglist/' + date + '/' + time);
-	var waitinglistRef = new Firebase('https://cooper-spaces.firebaseio.com/waitinglist/' + date + '/' + time );
-	waitinglistRef.on('value', function(roomsnapshot) {
-  		roomstogoon = [];
-  		roomsnapshot.forEach(
-            function(uniqueid) {
-                uniqueid.forEach(
-                	function(roomsdata) {
-                		var roomName = roomsdata.val();
-                		var roomName = roomName.toString();
-                		//change this to find value of room key but for now since there are only two keys it is doing this
-                		if (roomName != 'true') {
-                			roomstogoon.push('room' + roomName); 
-                		}
-                	}
-                );
-            }
-        );
-        console.log(roomstogoon);
-        clearrooms(roomstogoon);
-        updaterooms(roomstogoon);
-	});
-	
-}
+function checkifslidingtime() {
+ 
+   // var elem = $(this);
+   // var oldVal = "00/00/0000";
+   // // Save current value of element
+   // elem.data('oldVal', elem.val());
+   // console.log("this was the old val " + elem.val());
+   // // Look for changes in the value
+   $('#timepicker').change(function(){
+      console.log("this was the old val " + $(this).val() );
+      updatedisplaydate(false);
+     //  if (elem.data('oldVal') != elem.val()) {
+     //   // Updated stored value
+     //   elem.data('oldVal', elem.val());
 
+     //   updatedisplaydate(false);
+     // }
+   });
+ 
+}
 
 function getWrittenDay(rawdate) {
 	var d = rawdate;
@@ -455,8 +518,13 @@ function getWrittenDay(rawdate) {
 }
 
 function getWrittenMonth(rawdate) {
-	var m = rawdate[0];
-	m += rawdate[1];
+	var m;
+	if (rawdate[0]=== "0") {
+		m = rawdate[1];
+	} else {
+		m = rawdate[0];
+		m += rawdate[1];	
+	}
 	console.log(m);
 	var month=new Array();
 	month[1]="January";
@@ -477,7 +545,6 @@ function getWrittenMonth(rawdate) {
 var slider = $('#slideinwindow');
 var tab = $('#tabslider');
 tab.click( function(){
-	console.log("working");
 	slider.toggleClass('slideout');	
 });
 var box = $('#timepicker');
@@ -486,21 +553,75 @@ box.click( function(){
 	var donebutton = $('.ui-datepicker-close');
 	nowbutton.hide();
 	donebutton.hide();
+	checkifslidingtime();
 });
 var submitbutton = $('#submitdate');
 submitbutton.click( function() { 
+	slider.toggleClass('slideout');
 	updatedisplaydate(false);
 });
 
 /////////// FIREBASE STUFF ////////////////////////////////////////////////
-function pushtofirebase(roomtopush) {
-date = date.replace(/\//g, "");
-console.log(date);
-var waitinglistRef = new Firebase('https://cooper-spaces.firebaseio.com/waitinglist/' + date + '/' + time );
-var pushRooms = waitinglistRef.push();
-var bookroom = $('#bookroom');
-pushRooms.set({'room': roomtopush , 'occupied': "true"});
+function pushtofirebase(roomtopush, email) {
+	date = date.replace(/\//g, "");
+	console.log(time[3]);
+	var timeinterval = "";
+	if (time[3] === '0' || time[3] === '1' || time[3] === '2') {
+		timeinterval = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29"];
+	} else if (time[3] === '3' || time[3] === '4' || time[3] === '5') {
+		timeinterval = ["30","31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59"];
+	}
+	console.log(timeinterval[1]);
+	for (var t = 0; t <= timeinterval.length; t++) {
+		var waitinglistRef = new Firebase('https://cooper-spaces.firebaseio.com/waitinglist/' + date + '/' + time[0] + time[1] + ":" + timeinterval[t] );
+		console.log(waitinglistRef);
+		var pushRooms = waitinglistRef.push();
+		var bookroom = $('#bookroom');
+		pushRooms.set({'room': roomtopush , 'occupied': "true", 'occupier': email });
+	}
+}
 
+function checkroomsinfb(date, time) {
+	var roomstogoon = Array();
+	// console.log('https://cooper-spaces.firebaseio.com/waitinglist/' + date + '/' + time);
+	var waitinglistRef = new Firebase('https://cooper-spaces.firebaseio.com/waitinglist/' + date + '/' + time );
+	waitinglistRef.on('value', function(roomsnapshot) {
+  		roomstogoon = [];
+  		roomsnapshot.forEach(
+            function(uniqueid) {
+            	var roomName = uniqueid.child('room').val();
+            	roomName = roomName.toString();
+            	roomstogoon.push('room' + roomName);
+            }
+        );
+        // console.log(roomstogoon);
+        clearrooms(roomstogoon);
+        updaterooms(roomstogoon);
+	});
+	
+}
+
+function checkifroomisredinfb(date, time, room) {
+	var listofredrooms = Array();
+	var waitinglistRef = new Firebase('https://cooper-spaces.firebaseio.com/waitinglist/' + date + '/' + time );
+	waitinglistRef.on('value', function(roomsnapshot) {
+  		listofredrooms = [];
+  		roomsnapshot.forEach(
+            function(uniqueid) {
+            	var roomName = uniqueid.child('room').val();
+            	roomName = roomName.toString();
+            	listofredrooms.push(roomName);
+            }
+        );
+	});
+	var match = "";
+	for (i = 0; i <= listofredrooms.length ; i++) {
+		console.log(room + " " + listofredrooms[i] );
+		if (listofredrooms[i] === room ) {
+			return true;
+		} else {
+		}
+	}
 }
 
 

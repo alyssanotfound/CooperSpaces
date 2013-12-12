@@ -1,9 +1,17 @@
 body {
   font-family: Arial, sans-serif;
+  font-weight:100;
+  letter-spacing:1.9px;
+}
+
+#displaydate {
+  position: absolute;
+  width: 700px;
+  height: 30px;
 }
 
 .building {
-  /*margin-top: 50px;*/
+  /*padding-top: 50px;*/
   transition: all 1s ease-in-out;
 
 }
@@ -108,13 +116,14 @@ body {
 }
 
 .layer {
-
+  
   width: 365px;
   height: 225px;
   position: absolute;
   margin: 0 auto;
   z-index: 1;
   background: transparent;
+
 
   -webkit-transition: -webkit-transform 1s;
      -moz-transition: -moz-transform 1s;
@@ -131,12 +140,6 @@ body {
        -o-transform: rotateX( 75.0001deg );
           transform: rotateX( 75.0001deg );
 
-
-
-  -webkit-box-shadow: 0 30px 30px -5px rgba(0,0,0,0.3);
-      -moz-box-shadow: 0 30px 30px -5px rgba(0,0,0,0.3);
-        box-shadow: 0 30px 30px -5px rgba(0,0,0,0.3);
-
   -webkit-animation-duration: 2s;
   -webkit-animation-timing-function: ease-in-out;
   -webkit-animation-iteration-count: 1; 
@@ -144,6 +147,24 @@ body {
   -webkit-animation-delay: 1s;
   -webkit-animation-play-state: running;
   -webkit-animation-fill-mode: forwards;
+  
+  -webkit-filter: drop-shadow(20px 20px 5px rgba(0,0,0,0.3));
+  filter: url(#drop-shadow);
+  -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=12, OffY=12, Color='#444')";
+  filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=12, OffY=12, Color='#444')";
+
+}
+
+
+#fl9 {
+/*clip-path: url(#clipping);*/
+/*  -webkit-box-shadow: 0 30px 30px -5px rgba(0,0,0,0.3);
+      -moz-box-shadow: 0 30px 30px -5px rgba(0,0,0,0.3);
+        box-shadow: 0 30px 30px -5px rgba(0,0,0,0.3);
+*/
+}
+
+.shadowed {
 
 }
 
@@ -248,10 +269,10 @@ body {
 @-webkit-keyframes unflippedBox {
    0% {
     z-index: 10000;
-    margin-top: -200px;
+    margin-top: -232.5px;
     margin-left: -375px;
     left: 50%;
- /*   padding-top: 25%;*/
+    top: 50%;
    }
 
    50% {
@@ -266,7 +287,7 @@ body {
 }
 
 .layer figure {
-
+  /*cursor:pointer;*/
   display: block;
   height: 100%;
   width: 100%;
@@ -303,16 +324,21 @@ section, footer, nav {
 #slideinwindow {
   z-index: 10000;
   position: absolute;
-  border: 2px solid #F9E0F3;
-  margin-top:50px;
+  border: 2px solid #F8F8F8;
+  border-top-right-radius:10px;
+  border-bottom-right-radius:10px;
+  margin-top: 30px;
+  left:-5px;
   height: 125px;
   width: 205px;
   transition: all 0.5s ease-in-out;
 }
 
 #slideinwindow div {
-  background-color: #DB4DB8;
-  width: 25px;
+  background-color: #D8D8D8;
+  border-top-right-radius:10px;
+  border-bottom-right-radius:10px;
+  width: 30px;
   height: 100%;
   float: right;
 }
@@ -321,28 +347,71 @@ section, footer, nav {
   float: left;
 }
 
-#tabslider p {
-  position: relative;
+#tabslider {
+  height:30px;
+  line-height:30px;
+  width:125px;
+}
+
+#tabslider span {
+  position: absolute;
+  margin-left: -35px;
+  margin-top: 45px;
   transform:rotate(-90.0001deg);
   -ms-transform:rotate(-90.0001deg); /* IE 9 */
   -moz-transform:rotate(-90.0001deg);
   -webkit-transform:rotate(-90.0001deg); /* Safari and Chrome */
-  margin-top: 90px;
-  color: white;
+
+  
+}
+
+.greybutton {
+  -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+  -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+  box-shadow:inset 0px 1px 0px 0px #ffffff;
+  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
+  background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
+  background-color:#ededed;
+  -webkit-border-top-right-radius:6px;
+  -moz-border-radius-topright:6px;
+  border-top-right-radius:6px;
+  -webkit-border-bottom-right-radius:6px;
+  -moz-border-radius-bottomright:6px;
+  border-bottom-right-radius:6px;
+  text-indent:0px;
+  border:1px solid #dcdcdc;
+  display:inline-block;
+  color:#777777;
+  font-family:Arial;
+  font-size:17px;
+  font-weight:normal;
+  font-style:normal;
+  text-decoration:none;
+  text-align:center;
+  text-shadow:1px 1px 0px #ffffff;
+}
+
+#popupbox {
+  padding-top: 5px;
+  position: fixed;
+  z-index: 999000;
+  background-color: pink;
+  width: 300px;
+  height: 120px;
+  -webkit-transform: translateZ(100px);
+}
+
+#popupbox input {
+
 }
 
 .slideout {
-  margin-left:-190px;
+  margin-left:-170px;
 }
 
 section p {
   padding-left: 20px;
-}
-
-#displaydate {
-  position: absolute;
-  width: 400px;
-  height: 30px;
 }
 
 /* css for timepicker */
@@ -390,11 +459,11 @@ section p {
 
 .room {
   position: fixed;
-  -webkit-transform: scale3d(50,50,50);
   -webkit-transform: translateZ(50px);
   /*background-color: red;
   opacity: 0.1;*/
   display: inline-block;
+  cursor:pointer;
 }
 
 .rm801 {
